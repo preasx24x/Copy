@@ -1,1 +1,43 @@
-h
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Loading...</title>
+  <style>
+    html, body, iframe {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      border: none;
+      background: #000;
+    }
+  </style>
+</head>
+<body>
+<script>
+  (async () => {
+    const subdomain = location.hostname.split('.')[0];
+    const mappingUrl = "https://gist.githubusercontent.com/Preasx24/451a35def0daf123212fcb9729d3dfdd/raw/gistfile1.txt";
+
+    try {
+      const res = await fetch(mappingUrl);
+      const mapping = await res.json();
+      const target = mapping[subdomain];
+
+      if (!target) {
+        document.body.innerHTML = "<h1 style='color:white;text-align:center;margin-top:2em'>🔍 Page Not Found</h1>";
+        return;
+      }
+
+      const iframe = document.createElement("iframe");
+      iframe.src = target;
+      iframe.allowFullscreen = true;
+      document.body.appendChild(iframe);
+    } catch (err) {
+      document.body.innerHTML = "<h1 style='color:red;text-align:center;margin-top:2em'>❌ Error Loading</h1>";
+    }
+  })();
+</script>
+</body>
+</html>
